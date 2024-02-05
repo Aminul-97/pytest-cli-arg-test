@@ -13,6 +13,7 @@ def get_user_input(request) -> tuple:
     opt = str(request.config.getoption("--opt"))
     return a, b, opt
 
+
 # Fixture to calculate expected output
 @pytest.fixture
 def expected_output(get_user_input):
@@ -21,14 +22,15 @@ def expected_output(get_user_input):
     b = eval(b)
 
     if opt == "+":
-        res = float(a+b)
+        res = float(a + b)
     elif opt == "-":
-        res = float(a-b)
+        res = float(a - b)
     elif opt == "/":
-        res = float(a/b)
-    else :
-        res = float(a*b)
+        res = float(a / b)
+    else:
+        res = float(a * b)
     return res
+
 
 # Function to test argparse_cli_calculator()
 def test_argparse_cli_calculator(capsys, get_user_input, expected_output):
@@ -40,11 +42,10 @@ def test_argparse_cli_calculator(capsys, get_user_input, expected_output):
 
 runner = CliRunner()
 
+
 # Function to test typer_cli_calculator()
 def test_typer_cli_calculator(get_user_input, expected_output):
     a, b, opt = get_user_input
     result = runner.invoke(app, [a, opt, b])
     assert result.exit_code == 0
     assert f"Result: {expected_output}\n" in result.stdout
-
-
